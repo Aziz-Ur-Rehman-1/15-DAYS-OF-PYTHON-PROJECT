@@ -1,41 +1,34 @@
 import requests
 
-API_KEY = "[186c956933e242b0968182220260908]" 
-BASE_URL = "http://api.weatherapi.com/v1/current.json"
-
-def get_weather(city):
-    params = {
-        "key": API_KEY,
-        "q": city
-    }
-    
+def get_weather(city_name):
     try:
-        response = requests.get(BASE_URL, params=params, timeout=10)
-        data = response.json()
+        # Step 1: City ke Coordinates (Latitude / Longitude) nikalna
+        geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city_name}&count=1"
+        geo_res = requests.get(geo_url, timeout=10).json()
         
-        if response.status_code == 200:
-            city_name = data["location"]["name"]
-            country = data["location"]["country"]
-            temp = data["current"]["temp_c"]
-            feels_like = data["current"]["feelslike_c"]
-            condition = data["current"]["condition"]["text"]
-            humidity = data["current"]["humidity"]
-            wind_speed = data["current"]["wind_kph"]
-            
-            print("\n" + "="*45)
-            print(f" Live Weather Update: {city_name}, {country}")
-            print("="*45)
-            print(f" Temperature:    {temp} C (Feels like {feels_like} C)")
-            print(f" Condition:      {condition}")
-            print(f" Humidity:       {humidity}%")
-            print(f" Wind Speed:     {wind_speed} km/h")
-            print("="*45 + "\n")
-        else:
-            error_msg = data.get("error", {}).get("message", "Unknown error")
-            print(f"\nError fetching data: {error_msg}\n")
-            
+        if not geo_res.get("results"):
+            print(f"\nError: City '{city_name}' not found. Please check spelling.\n")
+            return
+
+        lat = geo_res["results"][0]["latitude"]
+        lon = geo_res["results"][0]["longitude"]
+        name = geo_res["results"][0]["name"]
+        country = geo_res["results"][0].get("country", "")
+
+        # Step 2: Weather Data fetch karna
+        weather_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
+        w_res = requests.get(weather_url, timeout=10).json()
+        current = w_res["current_weather"]
+
+        print("\n" + "="*45)
+        print(f" Live Weather Update: {name}, {country}")
+        print("="*45)
+        print(f" Temperature:    {current['temperature']} C")
+        print(f" Wind Speed:     {current['windspeed']} km/h")
+        print("="*45 + "\n")
+
     except requests.exceptions.RequestException as e:
-        print(f"\nNetwork/Connection Error: {e}\n")
+        print(f"\nNetwork Error: {e}\n")
 
 def main():
     while True:
