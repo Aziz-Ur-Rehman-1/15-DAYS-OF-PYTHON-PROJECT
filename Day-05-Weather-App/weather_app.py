@@ -2,7 +2,7 @@ import requests
 
 def get_weather(city_name):
     try:
-        # Step 1: City ke Coordinates (Latitude / Longitude) nikalna
+
         geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city_name}&count=1"
         geo_res = requests.get(geo_url, timeout=10).json()
         
@@ -15,7 +15,6 @@ def get_weather(city_name):
         name = geo_res["results"][0]["name"]
         country = geo_res["results"][0].get("country", "")
 
-        # Step 2: Weather Data fetch karna
         weather_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
         w_res = requests.get(weather_url, timeout=10).json()
         current = w_res["current_weather"]
