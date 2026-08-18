@@ -1,0 +1,11 @@
+Product,Category,Price,Quantity,Rating
+Laptop,Electronics,1200,5,4.8
+Mouse,Electronics,25,50,4.2
+Keyboard,Electronics,45,30,4.5
+Chair,Furniture,150,12,4.0
+Desk,Furniture,250,8,4.6
+Monitor,Electronics,300,15,4.7
+Laptop,Electronics,1200,3,4.8
+Mouse,Electronics,25,20,4.2
+Sofa,Furniture,500,4,4.3
+Headphones,Electronics,80,25,4.4

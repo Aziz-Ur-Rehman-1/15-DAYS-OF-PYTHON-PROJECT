@@ -1,0 +1,18 @@
+
+--- Analysis Timestamp: 2026-08-18 23:55:05 ---
+Source File: products.csv
+=======================================================
+           ANALYSIS FOR COLUMN: 'Product'           
+=======================================================
+ Total Rows         : 10
+ Non-Empty Values   : 10
+ Missing Values     : 0
+-------------------------------------------------------
+ Data Type          : Categorical (Text)
+ Top Most Frequent Values:
+   - 'Laptop': 2 times
+   - 'Mouse': 2 times
+   - 'Keyboard': 1 times
+   - 'Chair': 1 times
+   - 'Desk': 1 times
+=======================================================
